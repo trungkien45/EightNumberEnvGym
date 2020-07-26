@@ -27,9 +27,9 @@ class Eightnumber(gym.Env):
             numpy.random.shuffle(array)
         self.new_Array = array.reshape(3, 3)
         self.action_space = spaces.Discrete(4)
-        self.observation_space = spaces.MultiDiscrete([[8,8,8],
-                                                       [8,8,8],
-                                                       [8,8,8]])
+        self.observation_space = spaces.MultiDiscrete([[9,9,9],
+                                                       [9,9,9],
+                                                       [9,9,9]])
         
         
     def step(self, action):
