@@ -25,7 +25,7 @@ class Eightnumber(gym.Env):
         numpy.random.shuffle(array)
         while (array.reshape(3, 3) == self.T).all() or not EightNum.isSolvable(array):
             numpy.random.shuffle(array)
-        self.new_Array = array.reshape(3, 3)
+        self.currentArray = array.reshape(3, 3)
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.MultiDiscrete([[9,9,9],
                                                        [9,9,9],
@@ -36,7 +36,7 @@ class Eightnumber(gym.Env):
         """Run one timestep of the environment's dynamics. When end of
         episode is reached, you are responsible for calling `reset()`
         to reset this environment's state."""
-        newArr = self.new_Array
+        newArr = self.currentArray
         action1 = self.ACTION[action]
         x = numpy.where(newArr == 0)[0][0]
         y = numpy.where(newArr == 0)[1][0]
@@ -54,9 +54,9 @@ class Eightnumber(gym.Env):
             y1 = 2
         newArr[x][y], newArr[x1][y1] = newArr[x1][y1], newArr[x][y]
         reward = numpy.sum(newArr == self.T)
-        self.new_Array = newArr
+        self.currentArray = newArr
         done = reward == self.WIN
-        observation = self.new_Array
+        observation = self.currentArray
         return observation, reward, done, {}
 
     def reset(self):
@@ -65,12 +65,12 @@ class Eightnumber(gym.Env):
         numpy.random.shuffle(array)
         while (array.reshape(3, 3) == self.T).all() or not EightNum.isSolvable(array):
             numpy.random.shuffle(array)
-        self.new_Array = array.reshape(3, 3)
-        observation = self.new_Array
+        self.currentArray = array.reshape(3, 3)
+        observation = self.currentArray
         return observation  # reward, done, info can't be included
 
     def render(self, mode='human'):
-        print(self.new_Array)
+        print(self.currentArray)
         
     def close(self):
         pass
