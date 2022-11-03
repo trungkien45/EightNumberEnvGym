@@ -53,9 +53,9 @@ class Eightnumber(gym.Env):
         if y1 > 2:
             y1 = 2
         newArr[x][y], newArr[x1][y1] = newArr[x1][y1], newArr[x][y]
-        reward = numpy.sum(newArr == self.T)
+        reward = numpy.sum(newArr == self.T)+0.0
         self.currentArray = newArr
-        done = reward == self.WIN
+        done = bool(reward == self.WIN)
         observation = self.currentArray
         return observation, reward, done, {}
 
