@@ -38,8 +38,9 @@ class Eightnumber(gym.Env):
         to reset this environment's state."""
         newArr = self.currentArray
         action1 = self.ACTION[action]
-        x = numpy.where(newArr == 0)[0][0]
-        y = numpy.where(newArr == 0)[1][0]
+        xy = numpy.where(newArr == 0)
+        x = xy[0][0]
+        y = xy[1][0]
 
         x1 = x + action1[0]
         y1 = y + action1[1]
