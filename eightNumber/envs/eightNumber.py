@@ -17,7 +17,7 @@ class Eightnumber(gym.Env):
          [4, 5, 6],
          [7, 8, 0]]
     WIN = 9
-
+    Observations = []
     def __init__(self):
         # Define action and observation space
         # They must be gym.spaces objects
@@ -28,7 +28,7 @@ class Eightnumber(gym.Env):
         self.currentArray = array.reshape(3, 3)
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Box(0, 9, [3,3])
-        
+        Eightnumber.Observations = []
         
     def step(self, action):
         """Run one timestep of the environment's dynamics. When end of
@@ -55,6 +55,14 @@ class Eightnumber(gym.Env):
         reward = numpy.sum(newArr == self.T) + 0.0
         self.currentArray = newArr
         done = bool(reward == self.WIN)
+        
+        is_in_list = any((newArr == x).all() for x in Eightnumber.Observations)
+        if not is_in_list:
+           Eightnumber.Observations.append(newArr)
+        
+        if (not done) and is_in_list:
+            reward = -100
+            
         observation = self.currentArray
         return observation, reward, done, {}
 
@@ -66,6 +74,7 @@ class Eightnumber(gym.Env):
             numpy.random.shuffle(array)
         self.currentArray = array.reshape(3, 3)
         observation = self.currentArray
+        Eightnumber.Observations = []
         return observation  # reward, done, info can't be included
 
     def render(self, mode='human'):
